@@ -258,7 +258,71 @@ All applications follow the same deployment pattern:
 - **Azure Portal UI only** - No CLI commands in documentation
 - **Test locally first** - Use local emulators/databases before pushing
 
-## 📄 Version History
+## � Project Structure
+
+### API Service App (.NET)
+
+Following Azure deployment best practices with clean project structure:
+
+```
+Api-service-app/                          (Repository root)
+├── Api-service-app.sln                   ✅ Solution file at root
+├── README.md                             📖 Project overview
+├── DEPLOYMENT.md                         📋 Deployment guide
+├── SYSTEM_ARCHITECTURE.md                🏗️ This file
+├── QUICK_START.md                        🚀 Quick start guide
+├── .gitignore
+├── .env.example
+├── .github/
+│   └── workflows/                        🔄 Azure auto-generated workflows
+└── src/
+    └── ApiServiceApp/                    📦 Main project directory
+        ├── ApiServiceApp.csproj
+        ├── Program.cs
+        ├── appsettings.json
+        ├── appsettings.Development.json
+        ├── Controllers/                  🎮 API endpoints
+        │   ├── EmailController.cs
+        │   ├── HealthController.cs
+        │   └── UserDataController.cs
+        ├── Models/                       📊 Data models
+        │   ├── ApiResponse.cs
+        │   ├── EmailRequest.cs
+        │   └── UserDataRequest.cs
+        ├── Services/                     ⚙️ Business logic
+        │   ├── IEmailService.cs
+        │   ├── EmailService.cs
+        │   ├── IServiceBusService.cs
+        │   └── ServiceBusService.cs
+        ├── bin/                          🔧 Build output
+        └── obj/                          🔧 Build artifacts
+```
+
+### Why This Structure?
+
+✅ **Azure Workflow Compatibility** - Azure auto-generated workflows expect one `.sln` at root  
+✅ **.NET Conventions** - Standard structure recognized by Visual Studio and dotnet CLI  
+✅ **Clean Root** - Only documentation and configuration files at top level  
+✅ **Scalable** - Easy to add more projects to solution (e.g., `src/ApiServiceApp.Tests/`)  
+✅ **Build Simplicity** - `dotnet build` works without specifying file path
+
+### Build Commands (All Valid)
+
+```bash
+# Build using solution file (explicit)
+dotnet build Api-service-app.sln --configuration Release
+
+# Build using default discovery (Azure workflow uses this)
+dotnet build --configuration Release
+
+# Restore dependencies
+dotnet restore
+
+# Run the application
+dotnet run --project src/ApiServiceApp/ApiServiceApp.csproj
+```
+
+## �📄 Version History
 
 - v1.0 (Oct 30, 2025) - Initial system setup with 5 applications
 - v1.1 (Oct 30, 2025) - Added Name-Age App
@@ -270,3 +334,4 @@ All applications follow the same deployment pattern:
 - v1.7 (Nov 3, 2025) - Updated to use Azure auto-generated GitHub Actions workflows instead of custom workflows
 - v1.8 (Nov 3, 2025) - Changed Static Web Apps from automatic connection test to manual button-triggered test
 - v1.9 (Nov 3, 2025) - Fixed Static Web Apps UX: users can now enter data freely, API test only required before submission
+- v2.0 (Nov 3, 2025) - Restructured API Service App to follow Azure deployment best practices (src/ folder structure, solution at root)
