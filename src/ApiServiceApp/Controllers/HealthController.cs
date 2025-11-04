@@ -4,7 +4,7 @@ using ApiServiceApp.Models;
 namespace ApiServiceApp.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/health")]
 public class HealthController : ControllerBase
 {
     /// <summary>

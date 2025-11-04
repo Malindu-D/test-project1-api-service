@@ -5,7 +5,7 @@ using ApiServiceApp.Services;
 namespace ApiServiceApp.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/email")]
 public class EmailController : ControllerBase
 {
     private readonly IEmailService _emailService;

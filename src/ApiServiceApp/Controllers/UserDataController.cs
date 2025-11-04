@@ -5,7 +5,7 @@ using ApiServiceApp.Services;
 namespace ApiServiceApp.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/userdata")]
 public class UserDataController : ControllerBase
 {
     private readonly IServiceBusService _serviceBusService;
