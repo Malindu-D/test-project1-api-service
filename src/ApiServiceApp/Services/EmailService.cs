@@ -12,13 +12,26 @@ public class EmailService : IEmailService
         _logger = logger;
         
         // Get Email Export Service URL from environment variable or appsettings
+        // Support both EMAIL_EXPORT_SERVICE_URL and JAVA_EMAIL_SERVICE_URL for flexibility
         _emailServiceUrl = Environment.GetEnvironmentVariable("EMAIL_EXPORT_SERVICE_URL")
+            ?? Environment.GetEnvironmentVariable("JAVA_EMAIL_SERVICE_URL")
             ?? configuration["EmailExportService:BaseUrl"]
             ?? string.Empty;
+
+        // Ensure URL has https:// prefix if not empty
+        if (!string.IsNullOrEmpty(_emailServiceUrl) && !_emailServiceUrl.StartsWith("http://") && !_emailServiceUrl.StartsWith("https://"))
+        {
+            _emailServiceUrl = $"https://{_emailServiceUrl}";
+            _logger.LogInformation("Added https:// prefix to Email Service URL: {Url}", _emailServiceUrl);
+        }
 
         if (string.IsNullOrEmpty(_emailServiceUrl))
         {
             _logger.LogWarning("Email Export Service URL is not configured");
+        }
+        else
+        {
+            _logger.LogInformation("Email Export Service configured at: {Url}", _emailServiceUrl);
         }
     }
 
