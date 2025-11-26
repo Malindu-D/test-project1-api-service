@@ -31,9 +31,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// IMPORTANT: Apply CORS before HTTPS redirection
 app.UseCors("AllowAll");
+app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+// Add root endpoint for quick health verification
+app.MapGet("/", () => Results.Ok(new { 
+    status = "running", 
+    message = "API Service is operational",
+    timestamp = DateTime.UtcNow 
+}));
 
 app.Run();
